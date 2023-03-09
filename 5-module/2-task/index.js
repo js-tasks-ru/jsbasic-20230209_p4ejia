@@ -3,7 +3,7 @@ function toggleText() {
     let btn = document.querySelector('.toggle-text-button');
     if (!btn) return;
 
-    let txt =document.getElementById('text');
+    let txt = document.getElementById('text');
     txt.hidden = !txt.hidden;
   })
 }
