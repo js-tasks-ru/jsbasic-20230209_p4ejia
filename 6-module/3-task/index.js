@@ -79,6 +79,6 @@ export default class Carousel {
         });
         this.elem.dispatchEvent(customEvt);
       }
-    })
+    });
   }
 }
