@@ -48,7 +48,6 @@ export default class Cart {
   }
 
   onProductUpdate(cartItem) {
-    console.log(`Product ${cartItem.id} updated in the cart`);
     // реализуем в следующей задаче
 
     this.cartIcon.update(this);
