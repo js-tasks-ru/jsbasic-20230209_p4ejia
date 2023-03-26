@@ -64,7 +64,6 @@ export default class RibbonMenu {
         this.selectLink = ribbonSlct;
         this.selectLink.classList.add('ribbon__item_active');
         let id = ribbonSlct.closest(`[data-id]`).dataset.id;
-        console.log(id);
         this.elem.dispatchEvent(new CustomEvent('ribbon-select', {
           detail: id,
           bubbles: true
