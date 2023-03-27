@@ -6,6 +6,7 @@ export default class Carousel {
     this.elem = this.makeCarousel();
     this.addEventListener();
   }
+
   makeCarousel() {
     let html = createElement(`
     <div class="carousel">
@@ -24,9 +25,8 @@ export default class Carousel {
   }
 
   makeSlides(slides) {
-    let slidesHTML = '';
-    slides.map(slide => {
-      slidesHTML += `
+    let slidesHTML = slides.reduce((acc, slide) => {
+      return acc += `
         <div class="carousel__slide" data-id="${slide.id}">
         <img src="/assets/images/carousel/${slide.image}" class="carousel__img" alt="slide">
         <div class="carousel__caption">
@@ -38,7 +38,7 @@ export default class Carousel {
         </div>
     </div>
     `;
-    });
+    }, '');
     let carouselSlides = `<div class="carousel__inner">${slidesHTML}</div>`
     return carouselSlides;
   }
@@ -46,31 +46,31 @@ export default class Carousel {
   addEventListener() {
     const btnPrev = this.elem.querySelector('.carousel__arrow_left');
     const btnNext = this.elem.querySelector('.carousel__arrow_right');
+    const image = this.elem.querySelector('.carousel__inner');
     let allSlides = this.slides.length;
     let change = 0;
     btnPrev.style.display = 'none';
 
-    this.elem.addEventListener('click', ({target}) => {
-      const image = this.elem.querySelector('.carousel__inner');
+    btnNext.addEventListener('click', () => {
       let width = image.offsetWidth;
       let maxTurn = width * (allSlides - 1);
-
-      if (target.closest('.carousel__arrow_right')) {
-        image.style.transform = `translateX(${change -= width}px)`;
-        btnPrev.style.display = '';
-        if (change * -1 === maxTurn) {
-          btnNext.style.display = 'none';
-        }
+      image.style.transform = `translateX(${change -= width}px)`;
+      btnPrev.style.display = '';
+      if (change * -1 === maxTurn) {
+        btnNext.style.display = 'none';
       }
+    });
   
-      if (target.closest('.carousel__arrow_left')) {
-        image.style.transform = `translateX(${change += width}px)`;
-        btnNext.style.display = '';
-        if (change === 0) {
-          btnPrev.style.display = 'none';
-        }
+    btnPrev.addEventListener('click', () => {
+      let width = image.offsetWidth;
+      image.style.transform = `translateX(${change += width}px)`;
+      btnNext.style.display = '';
+      if (change === 0) {
+        btnPrev.style.display = 'none';
       }
+    });
 
+    this.elem.addEventListener('click', ({target}) => {
       let addBtn = target.closest('.carousel__button'); 
       if (addBtn) {
         let customEvt = new CustomEvent("product-add", { 

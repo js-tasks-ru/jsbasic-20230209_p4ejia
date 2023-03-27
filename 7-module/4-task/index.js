@@ -10,7 +10,6 @@ export default class StepSlider {
     this.sliderSteps = this.elem.querySelector('.slider__steps');
     this.stepsElems = this.sliderSteps.querySelectorAll('span');
     this.valueElem = this.elem.querySelector('.slider__value');
-    // this.dragging = false;
     this.addListeners();
     this.changeSlider(value);
   }
@@ -32,13 +31,10 @@ export default class StepSlider {
   addListeners() {
     this.thumb.ondragstart = () => false;
     this.elem.onclick = this.onSliderClick;
-    // this.elem.addEventListener('click', this.onSliderClick.bind(this));
     this.thumb.onpointerdown = this.onThumbPointerDown;
-    // this.thumb.addEventListener('pointerdown', this.onThumbPointerDown.bind(this));
   }
 
   onSliderClick = event => {
-    // onSliderClick(event) {
     if ( event.target.closest('.slider__thumb')) {
       return;
     }
@@ -51,20 +47,12 @@ export default class StepSlider {
   }
 
   onThumbPointerDown = event => {
-    // onThumbPointerDown(event) {
-    // event.preventDefault();
-    // this.dragging = true;
     this.elem.classList.add('slider_dragging');
     document.addEventListener('pointermove', this.onThumbPointerMove);
     document.addEventListener('pointerup', this.onThumbPointerUp);
   }
 
   onThumbPointerMove = event => {
-    // onThumbPointerMove(event) {
-    // event.preventDefault();
-    // if (!this.dragging) {
-    //   return;
-    // }
     let xRelative = this.calcNewRelative(event);
     let xPerc = xRelative * 100;
     let value = Math.round(xRelative * (this.steps - 1));
@@ -72,11 +60,6 @@ export default class StepSlider {
   }
 
   onThumbPointerUp = () => {
-    // onThumbPointerUp() {
-    // if (!this.dragging) {
-    //   return;
-    // }
-    // this.dragging = false;
     document.removeEventListener('pointermove', this.onThumbPointerMove);
     document.removeEventListener('pointerup', this.onThumbPointerUp);
     this.elem.classList.remove('slider_dragging');
@@ -91,7 +74,7 @@ export default class StepSlider {
     }));
   }
   
-  changeSlider(value, xPerc=false) {
+  changeSlider(value, xPerc = false) {
     this.makeValue(value);
     this.activeStep();
     this.setStyles(xPerc);
@@ -99,7 +82,7 @@ export default class StepSlider {
 
   makeValue(value) {
     this.value = value;
-    this.valueElem.innerHTML = this.value;
+    this.valueElem.innerHTML = value;
   }
 
   activeStep() {
@@ -112,7 +95,7 @@ export default class StepSlider {
     });
   }
 
-  setStyles(xPerc=false) {
+  setStyles(xPerc = false) {
     xPerc = xPerc || this.calcProgressLeft();
     this.thumb.style.left = `${xPerc}%`;
     this.progress.style.width = `${xPerc}%`;
